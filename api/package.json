@@ -1,0 +1,23 @@
+{
+  "name": "formtest",
+  "version": "1.0.0",
+  "description": "Test form submission from node using Docker",
+  "main": "src/js/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dockerbuild": "docker build -t dfsco1prince/node-web-app .",
+    "dockerrun": "docker run -p 8000:8080 -d dfsco1prince/node-web-app",
+    "dockerstart": "npm run dockerbuild && npm run dockerrun",
+    "lint": "eslint --fix src/js/*.js && eslint src/js"
+  },
+  "author": "Prince Cheruvathur",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "pug": "^2.0.3",
+    "body-parser": "^1.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  }
+}
