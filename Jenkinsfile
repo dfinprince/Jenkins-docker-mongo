@@ -22,10 +22,9 @@ node {
              docker.image('mongo:latest').withRun('--name=db-test -d --env "MONGO_DB_PORT=27017"' +
                                 ' --env "MONGO_DB_HOST=db-test"' +
                                 ' --env "MONGO_DB_URL=mongodb://db-test:27017/"' +
-                                ' -v "$(pwd)/db:/data/db"' +
-                                ' --config $(pwd)/db/mongod_test.conf') { c ->
-                  /*  docker.image('mongo:latest').inside('') {*/
-                    //    sh 'mongod --config $(pwd)/db/mongod_test.conf &'
+                                ' -v "$(pwd)/db:/data/db"') { c ->
+                    docker.image('mongo:latest').inside('') {
+                        sh 'mongod --config $(pwd)/db/mongod_test.conf &'
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
                         docker.image('node:latest').inside('--env "MONGO_DB_PORT=27017"' +
                                 ' --env "MONGO_DB_HOST=db-test"' +
@@ -39,7 +38,7 @@ node {
                                    sh 'ls -la'
                                    sh 'cd ./api && printenv && npm install && npm run test'
                                 } 
-                    //        }
+                            }
                         }
                     }
         stage('Push image') {
