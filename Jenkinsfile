@@ -28,8 +28,8 @@ node {
                         sh 'mongod --config $(pwd)/db/mongod_test.conf &'
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
                         docker.image('node:latest').inside('--env "MONGO_DB_PORT=27017"' +
-                                ' --env "MONGO_DB_HOST=db-test"' +
-                                ' --env "MONGO_DB_URL=mongodb://db-test:27017/"' +
+                                ' --env "MONGO_DB_HOST=127.0.0.1"' +
+                                ' --env "MONGO_DB_URL=mongodb://127.0.0.1:27017/"' +
                                 ' --env "MONGO_DB_DATABASE=abDB"' +
                                 ' --env "MONGO_DB_NAME=abDS"' +
                                 ' --env "MONGO_DB_USER=mongodsUser"' +
