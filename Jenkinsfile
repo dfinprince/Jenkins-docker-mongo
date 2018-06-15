@@ -22,7 +22,7 @@ node {
              docker.image('mongo:latest').withRun('--name=db-test -d --env "MONGO_DB_PORT=27017"' +
                                 ' --env "MONGO_DB_HOST=db-test"' +
                                 ' --env "MONGO_DB_URL=mongodb://db-test:27017/"' +
-                                ' -v "$(pwd)/db:/data/db" --host db-test' +
+                                ' -v "$(pwd)/db:/data/db"' +
                                 ' --config $(pwd)/db/mongod_test.conf') { c ->
                   /*  docker.image('mongo:latest').inside('') {*/
                     //    sh 'mongod --config $(pwd)/db/mongod_test.conf &'
@@ -33,7 +33,8 @@ node {
                                 ' --env "MONGO_DB_DATABASE=abDB"' +
                                 ' --env "MONGO_DB_NAME=abDS"' +
                                 ' --env "MONGO_DB_USER=mongodsUser"' +
-                               ' --env "MONGO_DB_PASSWORD=L00pBack"') {
+                               ' --env "MONGO_DB_PASSWORD=L00pBack"' +
+                               '--link db-test:db-test') {
                                    sh 'docker ps'
                                    sh 'ls -la'
                                    sh 'cd ./api && printenv && npm install && npm run test'
