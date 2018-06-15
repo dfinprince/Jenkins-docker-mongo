@@ -29,7 +29,7 @@ node {
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
                         docker.image('node:latest').withRun('--env "MONGO_DB_PORT=27017"' +
                                 ' --env "MONGO_DB_HOST=db-test"' +
-                                ' --env "MONGO_DB_URL=mongodb://db-test:27017/"') { c -> {
+                                ' --env "MONGO_DB_URL=mongodb://db-test:27017/"') { s -> {
                                 sh 'ls -la'
                                 sh 'cd ./api && printenv && npm install && npm run test'
                             }
