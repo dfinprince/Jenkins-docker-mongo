@@ -9,7 +9,10 @@ node {
             checkout scm
             }
         stage('Build image') {
-             docker.image('mongo:latest').withRun('-d --env "MONGO_DB_DEV_PORT=27007" --env "MONGO_DB_DEV_HOST=db-dev" --env "MONGO_DB_DEV_URL=mongodb://db-dev:27007/" -v "$(pwd)/db:/data/db" -p 27007:27017') { c ->
+             docker.image('mongo:latest').withRun('-d --env "MONGO_DB_DEV_PORT=27007"' +
+                                    ' --env "MONGO_DB_DEV_HOST=db-dev"' +
+                                    ' --env "MONGO_DB_DEV_URL=mongodb://db-dev:27007/"' +
+                                    ' -v "$(pwd)/db:/data/db" -p 27007:27017') { c ->
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
                         app = docker.build("dfsco1prince/auditboard","-f ${dockerfile} ./api")
@@ -17,7 +20,11 @@ node {
                 }
             }
         stage('Test image') {
-             docker.image('mongo:latest').withRun('-d --env "MONGO_DB_TEST_PORT=27017" --env "MONGO_DB_TEST_HOST=db-test" --env "MONGO_DB_TEST_URL=mongodb://db-test:27017/" -v "$(pwd)/db:/data/db" -p 27017:27017') { c ->
+             docker.image('mongo:latest').withRun('-d --name=db-test ' + 
+                                '--env "MONGO_DB_PORT=27017"' +
+                                ' --env "MONGO_DB_HOST=db-test"' +
+                                ' --env "MONGO_DB_URL=mongodb://db-test:27017/"' +
+                                ' -v "$(pwd)/db:/data/db" -p 27017:27017') { c ->
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
