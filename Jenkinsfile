@@ -32,7 +32,6 @@ node {
                                 ' --env "MONGO_DB_URL=mongodb://db-test:27017/"') { s ->
                                 sh 'ls -la'
                                 sh 'cd ./api && printenv && npm install && npm run test'
-                            }
                         }                    
                     }
                 }
