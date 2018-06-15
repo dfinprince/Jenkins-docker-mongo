@@ -5,7 +5,6 @@ node {
     def dockerfiletest = './api/Dockerfile-test'
     docker.image('node:latest').inside {
         stage('Clone repository') {
-            sh "node --version"
             checkout scm
             }
         stage('Build image') {
@@ -28,9 +27,12 @@ node {
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
-                        docker.image('node:latest').inside {
-                            sh 'ls -la'
-                            sh 'cd ./api && npm install && npm run test'
+                        docker.image('node:latest').withRun('--env "MONGO_DB_PORT=27017"' +
+                                ' --env "MONGO_DB_HOST=db-test"' +
+                                ' --env "MONGO_DB_URL=mongodb://db-test:27017/"') { c -> {
+                                sh 'ls -la'
+                                sh 'cd ./api && printenv && npm install && npm run test'
+                            }
                         }                    
                     }
                 }
