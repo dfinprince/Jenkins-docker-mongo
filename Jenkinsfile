@@ -11,6 +11,7 @@ node {
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
                         app = docker.build("dfsco1prince/auditboard","-f ${dockerfile} ./api")
+                        sh 'npm run nodemon'
                     }
                 }
             }
