@@ -3,7 +3,6 @@ node {
     def appTest
     def dockerfile = './api/Dockerfile-dev'
     def dockerfiletest = './api/Dockerfile-test'
-    docker.image('node:latest').inside {
         stage('Clone repository') {
             checkout scm
             }
@@ -19,11 +18,10 @@ node {
                 }
             }
         stage('Test image') {
-             docker.image('mongo:latest').withRun('-d --env "MONGO_DB_PORT=27017"' +
+             docker.image('mongo:latest').inside('--name=db-test -d --env "MONGO_DB_PORT=27017"' +
                                 ' --env "MONGO_DB_HOST=db-test"' +
                                 ' --env "MONGO_DB_URL=mongodb://db-test:27017/"' +
-                                ' -v "$(pwd)/db:/data/db" -p 27017:27017') { c ->
-                    docker.image('mongo:latest').inside('--name=db-test') {
+                                ' -v "$(pwd)/db:/data/db" -p 27017:27017') {
                         sh 'mongod --config $(pwd)/db/mongod_test.conf &'
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
                         docker.image('node:latest').inside('--env "MONGO_DB_PORT=27017"' +
@@ -50,5 +48,4 @@ node {
             app.push("latest")
             }
         }
-    }
 }
