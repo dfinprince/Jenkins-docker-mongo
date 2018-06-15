@@ -1,5 +1,6 @@
 node {
     def app
+    def appTest
     def dockerfile = './api/Dockerfile-dev'
     def dockerfiletest = './api/Dockerfile-test'
     docker.image('node:latest').inside {
@@ -19,7 +20,7 @@ node {
              docker.image('mongo:latest').withRun('-d --env "MONGO_DB_TEST_PORT=27017" --env "MONGO_DB_TEST_HOST=db-test" --env "MONGO_DB_TEST_URL=mongodb://db-test:27017/" -v "$(pwd)/db:/data/db" -p 27017:27017') { c ->
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
-                        app = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
+                        appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
                     }
                 }
             }
