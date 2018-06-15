@@ -1,4 +1,5 @@
 node {
+    def mongotest
     def app
     def appTest
     def dockerfile = './api/Dockerfile-dev'
@@ -14,7 +15,7 @@ node {
                                     ' -v "$(pwd)/db:/data/db" -p 27007:27017') { c ->
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
-                        app = docker.build("dfsco1prince/auditboard","-f ${dockerfile} ./api")
+                        app = docker.build("dfsco1prince/auditboard","-f ${dockerfile}")
                     }
                 }
             }
@@ -23,9 +24,9 @@ node {
                                 ' --env "MONGO_DB_HOST=db-test"' +
                                 ' --env "MONGO_DB_URL=mongodb://db-test:27017/"' +
                                 ' -v "$(pwd)/db:/data/db"') { c ->
-                    docker.image('mongo:latest').inside('') {
+                    mongotest = docker.image('mongo:latest').inside('') {
                         sh 'mongod --config $(pwd)/db/mongod_test.conf &'
-                        appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
+                        appTest = docker.build("auditboard-test","-f ${dockerfiletest}")
                         docker.image('node:latest').inside('--env "MONGO_DB_PORT=27017"' +
                                 ' --env "MONGO_DB_HOST=db-test"' +
                                 ' --env "MONGO_DB_URL=mongodb://db-test:27017/"' +
@@ -33,7 +34,7 @@ node {
                                 ' --env "MONGO_DB_NAME=abDS"' +
                                 ' --env "MONGO_DB_USER=mongodsUser"' +
                                ' --env "MONGO_DB_PASSWORD=L00pBack"' +
-                               '--link db-test:db-test') {
+                               '--link db-test:mongotest') {
                                    sh 'docker ps'
                                    sh 'ls -la'
                                    sh 'cd ./api && printenv && npm install && npm run test'
