@@ -1,23 +1,42 @@
 {
-  "name": "formtest",
+  "name": "auditboard",
   "version": "1.0.0",
-  "description": "Test form submission from node using Docker",
-  "main": "src/js/server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dockerbuild": "docker build -t dfsco1prince/node-web-app .",
-    "dockerrun": "docker run -p 8000:8080 -d dfsco1prince/node-web-app",
-    "dockerstart": "npm run dockerbuild && npm run dockerrun",
-    "lint": "eslint --fix src/js/*.js && eslint src/js"
+  "main": "server/server.js",
+  "engines": {
+    "node": ">=4"
   },
-  "author": "Prince Cheruvathur",
-  "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "start": "node .",
+    "posttest": "npm run lint && nsp check",
+    "debug": "node --nolazy --inspect-brk=5858 server/server.js",
+    "test": "NODE_ENV=Test mocha test/**/*.js",
+    "nodemon": "NODE_ENV=Development nodemon -L --inspect=0.0.0.0:5858"
+  },
   "dependencies": {
-    "express": "^4.16.3",
-    "pug": "^2.0.3",
-    "body-parser": "^1.18.2"
+    "compression": "^1.0.3",
+    "cors": "^2.5.2",
+    "helmet": "^3.10.0",
+    "loopback": "^3.19.0",
+    "loopback-boot": "^2.6.5",
+    "loopback-component-explorer": "^6.0.0",
+    "loopback-connector-mongodb": "^3.4.3",
+    "serve-favicon": "^2.0.1",
+    "strong-error-handler": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.19.1"
-  }
+    "async": "^2.6.1",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "eslint": "^3.17.1",
+    "eslint-config-loopback": "^8.0.0",
+    "mocha": "^5.2.0",
+    "nsp": "^3.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dfs-activedisclosure/auditboard.git"
+  },
+  "license": "UNLICENSED",
+  "description": "auditboard"
 }
