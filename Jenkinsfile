@@ -5,6 +5,7 @@ node {
     def dockerfiletest = './api/Dockerfile-test'
     docker.image('node:latest').inside {
         stage('Clone repository') {
+            sh "node --version"
             checkout scm
             }
         stage('Build image') {
