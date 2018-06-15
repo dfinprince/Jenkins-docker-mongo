@@ -13,7 +13,6 @@ node {
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
                         app = docker.build("dfsco1prince/auditboard","-f ${dockerfile} ./api")
-                        sh 'npm run nodemon'
                     }
                 }
             }
@@ -22,6 +21,10 @@ node {
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
+                        docker.image('node:latest').inside {
+                            sh 'ls -la'
+                            sh 'cd ./api && npm install && npm run test'
+                        }                    
                     }
                 }
             }
