@@ -27,15 +27,15 @@ node {
                     docker.image('mongo:latest').inside() {
                         sh 'mongod --config $(pwd)/db/mongod.conf &'
                         appTest = docker.build("auditboard-test","-f ${dockerfiletest} ./api")
-                        docker.image('node:latest').withRun('--env "MONGO_DB_PORT=27017"' +
+                        docker.image('node:latest').inside('--env "MONGO_DB_PORT=27017"' +
                                 ' --env "MONGO_DB_HOST=db-test"' +
-                                ' --env "MONGO_DB_URL=mongodb://db-test:27017/"') { s ->
-                                sh 'ls -la'
-                                sh 'cd ./api && printenv && npm install && npm run test'
-                        }                    
-                    }
-                }
-            }
+                                ' --env "MONGO_DB_URL=mongodb://db-test:27017/"') {
+                                    sh 'ls -la'
+                                    sh 'cd ./api && printenv && npm install && npm run test'
+                                    } 
+                                }
+                            }
+                        }
         stage('Push image') {
         /* Push the image with two tags:
          * First, the incremental build number from Jenkins
