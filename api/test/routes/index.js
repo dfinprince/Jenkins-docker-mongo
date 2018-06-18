@@ -25,20 +25,21 @@ describe('Test API Routes', () => {
     return app().stop();
   });
 
-  it('should not get fileRequests without authentication', (done) => {
+  it('should not get fileRequests without authentication', () => {
     return chai.request(server)
       .get('/api/fileRequests')
       .send()
       .then((res) => {
         expect(res).to.have.status(401);
-        done();
       }).catch((err) => {
         console.log('error in fileRequests get');
         throw err;
+      }).finally(() => {
+        agent.close();
       });
   });
 
-  it('authenticate and get the fileRequests', (done) => {
+  it('authenticate and get the fileRequests', () => {
     var agent = chai.request(server).keepOpen();
     return agent.post('/login')
       .set('content-type', 'application/x-www-form-urlencoded')
@@ -56,7 +57,6 @@ describe('Test API Routes', () => {
             expect(frs.length).to.equal(app().data().fileRequests.length);
             assert.equal(frs[0].title, app().data().fileRequests[0].title);
             assert.equal(frs[1].title, app().data().fileRequests[1].title);
-            done();
           }).catch(((err) => {
             console.log('error in fileRequests get');
             throw err; // Required for mocha to treat it as fail.
