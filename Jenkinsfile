@@ -34,6 +34,7 @@ node {
                                 ' --env "MONGO_DB_USER=mongodsUser"' +
                                ' --env "MONGO_DB_PASSWORD=L00pBack"') {
                                    sh 'docker ps'
+                                   sh 'docker inspect db-test'
                                    sh 'ls -la'
                                    sh 'cd ./api && printenv && npm install && npm run test'
                                 } 
