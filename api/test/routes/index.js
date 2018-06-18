@@ -25,7 +25,7 @@ describe('Test API Routes', () => {
     return app().stop();
   });
 
-  it('should not get fileRequests without authentication', () => {
+  it('should not get fileRequests without authentication', (done) => {
     return chai.request(server)
       .get('/api/fileRequests')
       .send()
@@ -38,7 +38,7 @@ describe('Test API Routes', () => {
       });
   });
 
-  it('authenticate and get the fileRequests', () => {
+  it('authenticate and get the fileRequests', (done) => {
     var agent = chai.request(server).keepOpen();
     return agent.post('/login')
       .set('content-type', 'application/x-www-form-urlencoded')
