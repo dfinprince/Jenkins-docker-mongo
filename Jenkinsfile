@@ -36,7 +36,7 @@ node {
                                    sh 'docker ps'
                                    sh 'docker inspect db-test'
                                    sh 'ls -la'
-                                   sh 'cd ./api && printenv && npm install && npm run test &'
+                                   sh 'cd ./api && printenv && npm install && npm run test'
                                 } 
                             }
                  //       }

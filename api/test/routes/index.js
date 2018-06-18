@@ -31,6 +31,7 @@ describe('Test API Routes', () => {
       .send()
       .then((res) => {
         expect(res).to.have.status(401);
+        done();
       }).catch((err) => {
         console.log('error in fileRequests get');
         throw err;
@@ -55,6 +56,7 @@ describe('Test API Routes', () => {
             expect(frs.length).to.equal(app().data().fileRequests.length);
             assert.equal(frs[0].title, app().data().fileRequests[0].title);
             assert.equal(frs[1].title, app().data().fileRequests[1].title);
+            done();
           }).catch(((err) => {
             console.log('error in fileRequests get');
             throw err; // Required for mocha to treat it as fail.
