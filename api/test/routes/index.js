@@ -23,8 +23,8 @@ describe('Test API Routes', () => {
     });
   });
   after(() => {
+    console.log('before calling server.close' + server);
     server.close();
-    return app().stop();
   });
 
   it('should not get fileRequests without authentication', () => {

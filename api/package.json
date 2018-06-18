@@ -10,7 +10,7 @@
     "start": "node .",
     "posttest": "npm run lint && nsp check",
     "debug": "node --nolazy --inspect-brk=5858 server/server.js",
-    "test": "NODE_ENV=Test mocha test/**/*.js",
+    "test": "NODE_ENV=Test mocha --exit test/**/*.js",
     "nodemon": "NODE_ENV=Development nodemon -L --inspect=0.0.0.0:5858"
   },
   "dependencies": {

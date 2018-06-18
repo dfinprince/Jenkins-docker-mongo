@@ -25,13 +25,13 @@ app.start = function() {
   });
 };
 
-app.stop = function() {
-  console.log('**** inside app.stop');
-  if (server) {
-    server.close();
-    console.log('**** inside app.stop');
-  }
-};
+// app.stop = function() {
+//   console.log('**** inside app.stop');
+//   if (server) {
+//     server.close();
+//     console.log('**** inside app.stop');
+//   }
+// };
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
