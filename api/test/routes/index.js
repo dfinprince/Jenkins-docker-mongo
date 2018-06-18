@@ -18,10 +18,12 @@ describe('Test API Routes', () => {
   before((done) => {
     app().start().then((s) => {
       server = s;
+      console.log('before calling done');
       done();
     });
   });
   after(() => {
+    console.log('inside after');
     return app().stop();
   });
 
@@ -35,7 +37,7 @@ describe('Test API Routes', () => {
         console.log('error in fileRequests get');
         throw err;
       }).finally(() => {
-        agent.close();
+        console.log('should not get fileRequests without authentication: finally');       
       });
   });
 
@@ -65,6 +67,7 @@ describe('Test API Routes', () => {
         console.log('error in login call');
         throw err; // Required for mocha to treat it as fail.
       })).finally(() => {
+        console.log('authenticate and get the fileRequests: finally');
         agent.close();
       });
   });
