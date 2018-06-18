@@ -15,6 +15,7 @@ module.exports = function() {
       });
     },
     stop: () => {
+      console.log('before calling app stop ****');
       return app.stop();
     },
     data: () => {

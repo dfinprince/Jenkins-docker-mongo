@@ -26,6 +26,7 @@ app.start = function() {
 };
 
 app.stop = function() {
+  console.log('**** inside app.stop');
   if (server) {
     server.close();
     console.log('**** inside app.stop');

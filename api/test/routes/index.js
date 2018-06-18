@@ -23,6 +23,7 @@ describe('Test API Routes', () => {
     });
   });
   after(() => {
+    server.close();
     return app().stop();
   });
 
